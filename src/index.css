@@ -248,6 +248,24 @@ body {
 
 .links a:hover { text-decoration-color: var(--color-ink); }
 
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: clamp(15px, 4.2vw, 18px);
+}
+
+.buttons a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(44, 38, 32, 0.4);
+  text-underline-offset: 3px;
+}
+
+.buttons a:hover {
+  text-decoration-color: var(--color-ink);
+}
+
 .spacer { flex: 1; }
 
 /* ---------- peek tabs (edges of the buried cards) ---------- */

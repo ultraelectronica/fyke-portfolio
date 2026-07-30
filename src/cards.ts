@@ -9,6 +9,7 @@ export type CardData = {
   tagline?: string
   pitch?: string
   links?: { label: string; href: string }[]
+  buttons?: { label: string; href: string }[]
   heading?: string
   subtitle?: string
   stack?: string
@@ -35,6 +36,10 @@ export const cards: CardData[] = [
       { label: 'github.com/ultraelectronica', href: 'https://github.com/ultraelectronica' },
       { label: 'fyketonel22@protonmail.com', href: 'mailto:fyketonel22@protonmail.com' },
       { label: 'fykelabs.vercel.app', href: 'https://fykelabs.vercel.app' },
+    ],
+    buttons: [
+      { label: 'CV', href: '/CV_Fyke_Tonel.pdf' },
+      { label: 'Resume', href: '/Resume_Fyke_Tonel.pdf' },
     ],
   },
   {

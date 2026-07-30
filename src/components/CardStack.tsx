@@ -117,6 +117,22 @@ function CardBody({ card }: { card: CardData }) {
             </a>
           ))}
         </div>
+        {card.buttons && (
+          <span className="buttons">
+            {card.buttons.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                onPointerDown={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {l.label}
+              </a>
+            ))}
+          </span>
+        )}
       </div>
     )
   }
