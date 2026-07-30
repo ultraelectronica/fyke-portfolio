@@ -1,0 +1,306 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Caveat", cursive;
+  --font-body: "Kalam", cursive;
+
+  --color-ink: #2c2620;
+  --color-ink-soft: #5b5147;
+  --color-paper: #f3ead9;
+  --color-paper-edge: #e2d4ba;
+  --color-desk: #5b4632;
+}
+
+:root {
+  --card-w: min(84vw, 430px, calc((100vh - 132px) / 1.52));
+  --card-w: min(84vw, 430px, calc((100dvh - 132px) / 1.52));
+  --card-h: calc(var(--card-w) * 1.52);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background-color: #26231f;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E"),
+    radial-gradient(120% 90% at 50% 16%, #504b45 0%, #393530 46%, #25221e 100%);
+  background-blend-mode: soft-light, normal;
+  background-size: 200px 200px, 100% 100%;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+}
+
+/* ---------- desk scene ---------- */
+.desk {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+}
+
+.desk::after {
+  /* desk-grain vignette, keeps the scene grounded */
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+.scene {
+  position: relative;
+  width: var(--card-w);
+  height: var(--card-h);
+}
+
+/* ---------- cards ---------- */
+.card-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: var(--card-w);
+  height: var(--card-h);
+  padding: clamp(22px, 6vw, 40px);
+  border: none;
+  border-radius: 16px;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  pointer-events: auto;
+  transform-origin: center center;
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.18),
+    0 12px 22px -10px rgba(0, 0, 0, 0.4),
+    0 34px 60px -28px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.card--front {
+  cursor: grab;
+  box-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.2),
+    0 22px 34px -14px rgba(0, 0, 0, 0.5),
+    0 60px 90px -40px rgba(0, 0, 0, 0.55);
+}
+
+.card--front:active {
+  cursor: grabbing;
+}
+
+/* wrinkled paper texture, layered over the paper fill */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("/paper.webp");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.46;
+  mix-blend-mode: multiply;
+}
+
+/* dog-eared corner so each card reads as physical paper */
+.card::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0, 0, 0, 0.1) 50%, var(--color-paper-edge) 55%);
+  border-bottom-right-radius: 16px;
+  pointer-events: none;
+}
+
+.card__body {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ---------- typography on the cards ---------- */
+.kicker {
+  font-family: var(--font-display);
+  font-size: clamp(15px, 4.4vw, 19px);
+  color: var(--color-ink-soft);
+  letter-spacing: 0.5px;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 13vw, 66px);
+  line-height: 0.95;
+  margin: 2px 0 0;
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(15px, 4.4vw, 19px);
+  color: var(--color-ink-soft);
+}
+
+.rule {
+  height: 1px;
+  width: 64px;
+  background: var(--color-ink);
+  opacity: 0.5;
+  margin: 4px 0;
+}
+
+.pitch {
+  font-size: clamp(15px, 4.2vw, 18px);
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+.stack {
+  font-size: clamp(13px, 3.6vw, 15px);
+  color: var(--color-ink-soft);
+}
+
+.bullets {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: clamp(14px, 3.9vw, 16px);
+  line-height: 1.4;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.bullets li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-ink-soft);
+}
+
+.metric {
+  margin-top: auto;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 6vw, 28px);
+  line-height: 1.18;
+}
+
+.metric__sep {
+  opacity: 0.45;
+}
+
+.metric__link {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(44, 38, 32, 0.4);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.metric__link:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+.links {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: clamp(15px, 4.2vw, 18px);
+}
+
+.links a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: rgba(44, 38, 32, 0.4);
+  text-underline-offset: 3px;
+}
+
+.links a:hover { text-decoration-color: var(--color-ink); }
+
+.spacer { flex: 1; }
+
+/* ---------- peek tabs (edges of the buried cards) ---------- */
+.tabs {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(76%, -50%);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 9px;
+  z-index: 200;
+}
+
+.tab {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  border: 1px solid var(--color-paper-edge);
+  border-radius: 6px;
+  padding: 5px 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  transform-origin: left center;
+}
+
+.tab:hover { background: #fff8ea; }
+
+.hint {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: rgba(243, 234, 217, 0.7);
+  pointer-events: none;
+  z-index: 300;
+}
+
+@media (max-width: 767px) {
+  .tabs {
+    display: none;
+  }
+  .hint {
+    font-size: 17px;
+    bottom: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none !important; }
+}
