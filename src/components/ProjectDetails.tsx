@@ -2,6 +2,7 @@ import { ArrowTopRightIcon, Cross1Icon } from '@radix-ui/react-icons'
 import { useReducedMotion } from 'motion/react'
 import { useLayoutEffect, useRef } from 'react'
 import { type Project, formatIndex } from '../data/projects'
+import useGitHubReleaseDownloads from '../hooks/useGitHubReleaseDownloads'
 import ProjectArtwork from './ProjectArtwork'
 
 export type TileOrigin = { left: number; top: number; width: number; height: number }
@@ -14,6 +15,7 @@ export default function ProjectDetails({ project, index, origin, onClose }: { pr
   const closingRef = useRef(false)
   const mountedRef = useRef(false)
   const reduce = useReducedMotion()
+  const downloads = useGitHubReleaseDownloads(project.githubRepository)
 
   const sourceTransform = () => {
     const rect = artRef.current?.getBoundingClientRect()
@@ -98,7 +100,15 @@ export default function ProjectDetails({ project, index, origin, onClose }: { pr
               <div><dt>Built with</dt><dd>{project.stack}</dd></div>
             </dl>
             <div className="details__description">{project.bullets.map((bullet) => <p key={bullet}>{bullet}</p>)}</div>
-            {project.metric && <p className="details__metric">{project.metric}</p>}
+            {project.githubRepository ? (
+              <p className="details__metric" aria-live="polite" aria-busy={downloads.status === 'loading'}>
+                {downloads.status === 'loaded'
+                  ? `${new Intl.NumberFormat().format(downloads.count)} GitHub release downloads`
+                  : downloads.status === 'error'
+                    ? 'GitHub downloads unavailable'
+                    : 'Loading GitHub downloads…'}
+              </p>
+            ) : project.metric && <p className="details__metric">{project.metric}</p>}
             {project.links && (
               <nav className="details__links" aria-label={`${project.name} links`}>
                 {project.links.map((link) => (
