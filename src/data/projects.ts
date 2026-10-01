@@ -7,6 +7,7 @@ export type Project = {
   status?: string
   period?: string
   metric?: string
+  githubRepository?: { owner: string; name: string }
   image?: string
   imageShape?: 'mark' | 'square' | 'wide'
   bullets: string[]
@@ -23,7 +24,7 @@ export const projects: Project[] = [
     period: 'Jan 2026 – Present',
     image: '/projects/flick.svg',
     imageShape: 'mark',
-    metric: '3,000+ installs',
+    githubRepository: { owner: 'moss-apps', name: 'Flick' },
     bullets: [
       'Four Rust audio engines for direct USB output, bypassing the Android audio pipeline entirely.',
       'A hybrid differential library scanner combines MediaStore, Rust, and a fingerprint cache. Scan time went from around 11 seconds to 85–328 milliseconds, up to 34× faster across 1,000+ tracks.',
@@ -42,7 +43,7 @@ export const projects: Project[] = [
     period: 'Nov 2025 – Present',
     image: '/projects/latch.svg',
     imageShape: 'mark',
-    metric: '200+ installs',
+    githubRepository: { owner: 'moss-apps', name: 'Latch' },
     bullets: [
       'AES-256-GCM/CTR dual-engine encryption with PBKDF2 and Argon2id key derivation.',
       'Multi-tier authentication with PIN, password, biometrics, and a Decoy Mode. Secure audio goes straight to Flick’s engine.',
